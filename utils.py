@@ -14,11 +14,16 @@ def openImage(fp):
     Returns
     ----------
     img: numpy array
+    vol: volume of image in cm³
     """
+    
     if (not fp) or ('nii' not in fp):
         return
+
+    nii = nib.load(fp)
+    sx, sy, sz = nii.header.get_zooms()
     
-    return nib.load(fp).get_fdata()
+    return nii.get_fdata(), sx*sy*sz*10
 
 def organizeFiles(fp):
     """
